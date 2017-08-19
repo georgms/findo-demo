@@ -4,6 +4,7 @@ import org.springframework.core.io.ResourceLoader
 import org.springframework.core.io.support.ResourcePatternUtils
 import org.springframework.stereotype.Service
 import java.util.HashMap
+import java.util.regex.Pattern
 
 @Service
 class SearchService(val resourceLoader: ResourceLoader) {
@@ -16,12 +17,15 @@ class SearchService(val resourceLoader: ResourceLoader) {
      * @param   path    Location of .txt files.
      */
     fun indexFiles(path: String) {
+        val wordSeperators = Pattern.compile("[^A-Za-z]")
         val files = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources("classpath*:$path")
+
         files.forEach {
             val file = it.file
 
             file.forEachLine { line ->
-                val words = line.split(" ", ".", "-", ",", "(", ")", "/")
+                val words = line.split(wordSeperators)
+
                 words.forEach { word ->
                     val entry = invertedIndex.getOrDefault(word, hashSetOf())
                     entry.add(file.name)
