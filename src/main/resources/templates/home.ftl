@@ -4,36 +4,7 @@
     <meta charset="UTF-8">
     <title>Demoday Suche</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#query').keyup(function () {
-                var query = $('#query').val();
-                console.log(query);
-
-                $.ajax({
-                    url: "/search/ac/" + query,
-                    type: "GET"
-                }).done(function (data, textStatus, jqXHR) {
-                    if (jqXHR.status === 200) {
-                        $('#suggestions').empty();
-                        console.log(data);
-                        $.each(data, function (index, value) {
-                            $('#suggestions').append("<li><a class='suggestion' href='#'>" + value + "</a></li>");
-                        });
-                        registerClick();
-                    }
-                });
-            });
-        });
-
-        function registerClick() {
-            $('.suggestion').click(function () {
-                var value = $(this).text();
-                $('#query').val(value);
-                $('#suggestions').empty();
-            });
-        }
-    </script>
+    <script src="/js/autocomplete.js"></script>
 </head>
 <body>
 
