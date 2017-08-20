@@ -42,13 +42,13 @@ class SearchService(val resourceLoader: ResourceLoader) {
      */
     fun searchWords(words: List<String>): List<String> {
         val documents = hashSetOf<String>()
-        words.forEach { word ->
+        words.forEachIndexed { index, word ->
             val foundDocuments = invertedIndex.getOrDefault(word, hashSetOf())
 
-            if (documents.isEmpty()) {
-                documents.addAll(foundDocuments)
-            } else {
-                documents.retainAll(foundDocuments)
+            when {
+                foundDocuments.isEmpty() -> return emptyList()
+                index == 0 -> documents.addAll(foundDocuments)
+                else -> documents.retainAll(foundDocuments)
             }
         }
         return documents.toList()

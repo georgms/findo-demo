@@ -12,10 +12,10 @@ class FrontendController(val searchService: SearchService) {
     @RequestMapping("/")
     fun home(model: Model, @RequestParam(name = "query", required = false) query: String?): String {
         model.addAttribute("query", query)
-        if (query != null)
+        if (query != null && query.isNotBlank())
             model.addAttribute("results", searchService.lookup(query))
         else
-            model.addAttribute("results", listOf<String>())
+            model.addAttribute("results", emptyList<String>())
         return "home"
     }
 }

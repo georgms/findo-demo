@@ -17,14 +17,15 @@ $(document).ready(function () {
             console.log(query);
 
             xhr = $.ajax({
-                url: "/search/ac/" + query,
-                type: "GET"
+                url: "/ac",
+                type: "GET",
+                data: {query: query}
             }).done(function (data, textStatus, jqXHR) {
                 if (jqXHR.status === 200) {
                     $('#suggestions').empty();
                     console.log(data);
                     $.each(data, function (index, value) {
-                        $('#suggestions').append("<li><a class='suggestion' href='#'>" + value + "</a></li>");
+                        $('#suggestions').append("<a class='suggestion dropdown-item' href='#'>" + value + "</a>");
                     });
                     registerClick();
                 }
